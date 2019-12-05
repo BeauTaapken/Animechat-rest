@@ -19,6 +19,9 @@ public class User {
     @NotNull
     private String name;
 
+    @NotNull
+    private String imgUrl;
+
     public User(){
 
     }
@@ -27,4 +30,6 @@ public class User {
     public void SetEmail(String email){ this.email = email; }
     public String GetName(){ return name; }
     public void SetName(String name){ this.name = name; }
+    public String GetImgUrl(){ return imgUrl; }
+    public void setImgUrl(String imgUrl){ this.imgUrl = imgUrl; }
 }

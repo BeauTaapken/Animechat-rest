@@ -9,13 +9,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.ByteArrayOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequestMapping("friend")
@@ -34,10 +33,44 @@ public class FriendController {
     }
 
     //Function for getting users friends based on userEmail
-    @RequestMapping(path = "/findfriends/{userEmail}")
+    @RequestMapping(path = "/findfriends/{userEmail:.+}")
     public String GetUserFriends(@PathVariable String userEmail) throws JsonProcessingException {
         List<Friend> friends = friendRepo.findAll();
+        List<User> users = userRepo.findAll();
 
+        List<String> friendEmails = FilterUserList(userEmail, friends, users);
+
+        List<User> filteredUsers = users.stream().filter(x -> friendEmails.contains(x.GetEmail())).collect(Collectors.toList());
+
+        return new Gson().toJson(filteredUsers);
+    }
+
+    @RequestMapping(path = "/findnonfriends/{userEmail:.+}")
+    public String GetNonFriends(@PathVariable String userEmail) throws JsonProcessingException {
+        List<Friend> friends = friendRepo.findAll();
+        List<User> users = userRepo.findAll();
+
+        List<String> friendEmails = FilterUserList(userEmail, friends, users);
+        friendEmails.add(userEmail);
+        List<User> filteredUsers = users.stream().filter(x -> !friendEmails.contains(x.GetEmail())).collect(Collectors.toList());
+
+        return new Gson().toJson(filteredUsers);
+    }
+
+    @RequestMapping(path = "/adduser", method = RequestMethod.POST)
+    public void AddUser(@RequestBody String user){
+        User u = new Gson().fromJson(user, User.class);
+        userRepo.save(u);
+    }
+
+    //TODO Add friends to your friendlist(another save)
+    @RequestMapping(path = "/addfriend", method = RequestMethod.POST)
+    public void AddFriend(@RequestBody String friend){
+        Friend f = new Gson().fromJson(friend, Friend.class);
+        friendRepo.save(f);
+    }
+
+    public List<String> FilterUserList(String userEmail, List<Friend> friends, List<User> users){
         //Gets all friends of the specified user
         List<Friend> filteredFriends = friends.stream().filter(x -> x.GetUser().equals(userEmail)).collect(Collectors.toList());
 
@@ -47,28 +80,6 @@ public class FriendController {
             friendEmails.add(f.GetFriend());
         }
 
-        List<User> users = userRepo.findAll();
-
-        //Gets all the user data of the friends
-        List<User> filteredUsers = users.stream().filter(x -> friendEmails.contains(x.GetEmail())).collect(Collectors.toList());
-
-
-        return new Gson().toJson(filteredUsers);
+        return friendEmails;
     }
-
-    //TODO find friends user doesn't have
-    @RequestMapping(path = "/findnonfriends/{userEmail}")
-    public String GetNonFriends(@PathVariable String userEmail) throws JsonProcessingException {
-        List<Friend> friends = friendRepo.findAll();
-
-        for (Friend t : friends) {
-            System.out.println(t.GetUser());
-        }
-
-        List<Friend> filteredFriends = friends.stream().filter(x -> x.GetUser().equals(userEmail)).collect(Collectors.toList());
-
-        return new Gson().toJson(filteredFriends);
-    }
-
-    //TODO get search query for specific names of all people
 }
