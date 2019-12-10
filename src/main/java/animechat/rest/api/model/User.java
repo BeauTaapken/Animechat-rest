@@ -1,5 +1,6 @@
 package animechat.rest.api.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
@@ -14,12 +15,15 @@ import javax.validation.constraints.NotNull;
 public class User {
     @Id
     @NotNull
+    @ApiModelProperty(notes = "The saved unique email of a user", required = true)
     private String email;
 
     @NotNull
+    @ApiModelProperty(notes = "The saved name of a user", required = true)
     private String name;
 
     @NotNull
+    @ApiModelProperty(notes = "The saved image URL of a user", required = true)
     private String imgUrl;
 
     public User(){

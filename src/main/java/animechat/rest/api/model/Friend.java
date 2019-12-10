@@ -1,5 +1,6 @@
 package animechat.rest.api.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -11,12 +12,16 @@ import javax.validation.constraints.NotNull;
 public class Friend {
     @Id
     @NotNull
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(notes = "The database generated product ID", required = true)
     private int id;
 
     @NotNull
+    @ApiModelProperty(notes = "The saved emailadres of a user", required = true)
     private String user;
 
     @NotNull
+    @ApiModelProperty(notes = "The saved emailadres of a friend", required = true)
     private String friend;
 
     public Friend(){
