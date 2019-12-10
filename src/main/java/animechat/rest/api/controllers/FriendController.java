@@ -5,16 +5,12 @@ import animechat.rest.api.model.User;
 import animechat.rest.api.repository.FriendRepository;
 import animechat.rest.api.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequestMapping("friend")
@@ -24,13 +20,6 @@ public class FriendController {
     private UserRepository userRepo;
     @Autowired
     private FriendRepository friendRepo;
-    private ObjectMapper mapper;
-
-
-    FriendController(){
-        mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-    }
 
     //Function for getting users friends based on userEmail
     @RequestMapping(path = "/findfriends/{userEmail:.+}")
@@ -38,7 +27,7 @@ public class FriendController {
         List<Friend> friends = friendRepo.findAll();
         List<User> users = userRepo.findAll();
 
-        List<String> friendEmails = FilterUserList(userEmail, friends, users);
+        List<String> friendEmails = MakeFriendEmailList(userEmail, friends);
 
         List<User> filteredUsers = users.stream().filter(x -> friendEmails.contains(x.GetEmail())).collect(Collectors.toList());
 
@@ -50,7 +39,7 @@ public class FriendController {
         List<Friend> friends = friendRepo.findAll();
         List<User> users = userRepo.findAll();
 
-        List<String> friendEmails = FilterUserList(userEmail, friends, users);
+        List<String> friendEmails = MakeFriendEmailList(userEmail, friends);
         friendEmails.add(userEmail);
         List<User> filteredUsers = users.stream().filter(x -> !friendEmails.contains(x.GetEmail())).collect(Collectors.toList());
 
@@ -63,14 +52,14 @@ public class FriendController {
         userRepo.save(u);
     }
 
-    //TODO Add friends to your friendlist(another save)
     @RequestMapping(path = "/addfriend", method = RequestMethod.POST)
     public void AddFriend(@RequestBody String friend){
         Friend f = new Gson().fromJson(friend, Friend.class);
         friendRepo.save(f);
     }
 
-    public List<String> FilterUserList(String userEmail, List<Friend> friends, List<User> users){
+    //TODO some tests for this function
+    public List<String> MakeFriendEmailList(String userEmail, List<Friend> friends){
         //Gets all friends of the specified user
         List<Friend> filteredFriends = friends.stream().filter(x -> x.GetUser().equals(userEmail)).collect(Collectors.toList());
 
