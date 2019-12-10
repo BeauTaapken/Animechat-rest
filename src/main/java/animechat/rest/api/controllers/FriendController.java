@@ -27,7 +27,7 @@ public class FriendController {
     private FriendRepository friendRepo;
 
     //Function for getting users friends based on userEmail
-    @ApiOperation(value = "Get a list of all friends of a user", response = String.class)
+    @ApiOperation(value = "Get a list of all friends of a user", response = User.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -46,7 +46,7 @@ public class FriendController {
         return new Gson().toJson(filteredUsers);
     }
 
-    @ApiOperation(value = "Get a list of all non friends of a user", response = String.class)
+    @ApiOperation(value = "Get a list of all non friends of a user", response = User.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
