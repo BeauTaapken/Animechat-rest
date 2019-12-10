@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequestMapping("friend")
+@RequestMapping("/friend")
 @RestController
 public class FriendController {
     @Autowired
@@ -22,7 +22,7 @@ public class FriendController {
     private FriendRepository friendRepo;
 
     //Function for getting users friends based on userEmail
-    @RequestMapping(path = "/findfriends/{userEmail:.+}")
+    @RequestMapping(path = "/findfriends/{userEmail:.+}", method = RequestMethod.GET)
     public String GetUserFriends(@PathVariable String userEmail) throws JsonProcessingException {
         List<Friend> friends = friendRepo.findAll();
         List<User> users = userRepo.findAll();
@@ -34,7 +34,7 @@ public class FriendController {
         return new Gson().toJson(filteredUsers);
     }
 
-    @RequestMapping(path = "/findnonfriends/{userEmail:.+}")
+    @RequestMapping(path = "/findnonfriends/{userEmail:.+}", method = RequestMethod.GET)
     public String GetNonFriends(@PathVariable String userEmail) throws JsonProcessingException {
         List<Friend> friends = friendRepo.findAll();
         List<User> users = userRepo.findAll();
