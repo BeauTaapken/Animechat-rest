@@ -7,11 +7,15 @@ import com.google.gson.Gson;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -23,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebAppConfiguration
 @RunWith(SpringRunner.class)
+@TestPropertySource(locations="classpath:application-test.properties")
 @SpringBootTest
 public class ApiApplicationTests {
     private FriendController fc = new FriendController();
@@ -142,19 +147,65 @@ public class ApiApplicationTests {
     }
 
     /**
-     * Code for testing the FriendController MakeFriendEmailList
+     * Code for testing if friend/findfriends API call returns a json format with the correct friend
      */
     @Test
-    public void CorrectFriendEmailList(){
-        List<Friend> friends = new ArrayList<>();
-        friends.add(new Friend(1, "testuser@test.com", "testfriend@test.com"));
-        friends.add(new Friend(2, "testuser@test.com", "testfriend2@test.com"));
-        friends.add(new Friend(2, "test@test.com", "testfriend2@test.com"));
-        List<String> userEmails = fc.MakeFriendEmailList("testuser@test.com", friends);
-        List<String> expectedUserEmails = new ArrayList<>();
-        expectedUserEmails.add("testfriend@test.com");
-        expectedUserEmails.add("testfriend2@test.com");
-        Assert.assertEquals(expectedUserEmails, userEmails);
+    public void GetFilledFriendList() throws Exception {
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findfriends/test@test.com")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new Gson().toJson(user))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(200));
+
+        MvcResult result = action.andReturn();
+        Assert.assertEquals("[{\"email\":\"testfriend@test.com\",\"name\":\"testfriend\",\"imgUrl\":\"http://\"}]", result.getResponse().getContentAsString());
+    }
+
+    /**
+     * Code for testing if friend/findfriends API call can return an empty list as json
+     */
+    @Test
+    public void GetEmptyFriendList() throws Exception {
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findfriends/testfriend@test.com")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new Gson().toJson(user))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(200));
+
+        MvcResult result = action.andReturn();
+        Assert.assertEquals("[]", result.getResponse().getContentAsString());
+    }
+
+    /**
+     * Code for testing if friend/findfriends API call returns a json format with the correct friend
+     */
+    @Test
+    public void GetFilledNonFriendList() throws Exception {
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findnonfriends/testfriend@test.com")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new Gson().toJson(user))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(200));
+
+        MvcResult result = action.andReturn();
+        System.out.println(result.getResponse().getContentAsString());
+        Assert.assertEquals("[{\"email\":\"test@test.com\",\"name\":\"testuser\",\"imgUrl\":\"http://\"}]", result.getResponse().getContentAsString());
+    }
+
+    /**
+     * Code for testing if friend/findfriends API call can return an empty list as json
+     */
+    @Test
+    public void GetEmptyNonFriendList() throws Exception {
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findnonfriends/test@test.com")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new Gson().toJson(user))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(200));
+
+        MvcResult result = action.andReturn();
+        System.out.println(result.getResponse().getContentAsString());
+        Assert.assertEquals("[]", result.getResponse().getContentAsString());
     }
 
     /**
@@ -189,7 +240,7 @@ public class ApiApplicationTests {
      */
     @Test
     public void AddFriendCorrectly() throws Exception {
-        Friend content = new Friend("beau@lioncode.nl", "minibeau14@gmail.com");
+        Friend content = new Friend("test@test.com", "testfriend@test.com");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/friend/addfriend")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -210,5 +261,21 @@ public class ApiApplicationTests {
                 .content("")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+    }
+
+    /**
+     * Code for testing the FriendController MakeFriendEmailList
+     */
+    @Test
+    public void CorrectFriendEmailList(){
+        List<Friend> friends = new ArrayList<>();
+        friends.add(new Friend(1, "testuser@test.com", "testfriend@test.com"));
+        friends.add(new Friend(2, "testuser@test.com", "testfriend2@test.com"));
+        friends.add(new Friend(2, "test@test.com", "testfriend2@test.com"));
+        List<String> userEmails = fc.MakeFriendEmailList("testuser@test.com", friends);
+        List<String> expectedUserEmails = new ArrayList<>();
+        expectedUserEmails.add("testfriend@test.com");
+        expectedUserEmails.add("testfriend2@test.com");
+        Assert.assertEquals(expectedUserEmails, userEmails);
     }
 }
