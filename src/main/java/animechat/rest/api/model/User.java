@@ -28,6 +28,9 @@ public class User {
     @ApiModelProperty(notes = "The saved image URL of a user", required = true)
     private String imgUrl;
 
+    /**
+     * Used for normal use
+     */
     public User(){
     }
 

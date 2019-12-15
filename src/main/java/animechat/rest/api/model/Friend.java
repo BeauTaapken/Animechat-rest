@@ -27,6 +27,9 @@ public class Friend {
     @ApiModelProperty(notes = "The saved emailadres of a friend", required = true)
     private String friend;
 
+    /**
+     * Used for normal use
+     */
     public Friend(){
     }
 
