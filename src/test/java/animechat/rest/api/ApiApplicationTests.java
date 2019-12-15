@@ -38,10 +38,6 @@ public class ApiApplicationTests {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-    @Test
-    public void contextLoads() {
-    }
-
     /**
      * Code for testing the User model GetEmail
      */
