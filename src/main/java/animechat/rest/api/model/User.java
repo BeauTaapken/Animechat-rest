@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 public class User {
     @Id
     @NotNull
+    @Email
     @ApiModelProperty(notes = "The saved unique email of a user", required = true)
     private String email;
 
@@ -27,7 +29,18 @@ public class User {
     private String imgUrl;
 
     public User(){
+    }
 
+    /**
+     * Used for unitTests and intergration tests
+     * @param email The email of the user that has logged in
+     * @param name The name of the user that has logged in
+     * @param imgUrl The image url of the user that has logged in
+     */
+    public User(String email, String name, String imgUrl){
+        this.email = email;
+        this.name = name;
+        this.imgUrl = imgUrl;
     }
 
     public String GetEmail(){ return email; }

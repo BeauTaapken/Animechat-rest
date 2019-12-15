@@ -65,19 +65,6 @@ public class FriendController {
         return new Gson().toJson(filteredUsers);
     }
 
-    @ApiOperation(value = "Adds a user to the database")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully added user"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-    })
-    @RequestMapping(path = "/adduser", method = RequestMethod.POST)
-    public void AddUser(@RequestBody String user){
-        User u = new Gson().fromJson(user, User.class);
-        userRepo.save(u);
-    }
-
     @ApiOperation(value = "Adds a user friend combination to the database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully added user friend combination"),
@@ -91,15 +78,14 @@ public class FriendController {
         friendRepo.save(f);
     }
 
-    //TODO some tests for this function
     public List<String> MakeFriendEmailList(String userEmail, List<Friend> friends){
         //Gets all friends of the specified user
-        List<Friend> filteredFriends = friends.stream().filter(x -> x.GetUser().equals(userEmail)).collect(Collectors.toList());
+        List<Friend> filteredFriends = friends.stream().filter(x -> x.GetUserEmail().equals(userEmail)).collect(Collectors.toList());
 
         //Adds all the emails of friends of the specified user to a list
         List<String> friendEmails = new ArrayList<>();
         for (Friend f : filteredFriends) {
-            friendEmails.add(f.GetFriend());
+            friendEmails.add(f.GetFriendEmail());
         }
 
         return friendEmails;

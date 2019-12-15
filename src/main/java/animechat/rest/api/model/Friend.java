@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -17,21 +18,44 @@ public class Friend {
     private int id;
 
     @NotNull
+    @Email
     @ApiModelProperty(notes = "The saved emailadres of a user", required = true)
     private String user;
 
     @NotNull
+    @Email
     @ApiModelProperty(notes = "The saved emailadres of a friend", required = true)
     private String friend;
 
     public Friend(){
+    }
 
+    /**
+     * Used for unitTests and intergration tests
+     * @param user The email of the user that has added the friend
+     * @param friendEmail The email of the friend that the user has added
+     */
+    public Friend(String user, String friendEmail){
+        this.user = user;
+        this.friend = friendEmail;
+    }
+
+    /**
+     * Used for unitTests and intergration tests
+     * @param id A unique id that is given to every combination of userEmail friendEmail in the database
+     * @param user The email of the user that has added the friend
+     * @param friendEmail The email of the friend that the user has added
+     */
+    public Friend(int id, String user, String friendEmail){
+        this.id = id;
+        this.user = user;
+        this.friend = friendEmail;
     }
 
     public int GetId(){ return id; }
     public void SetId(int id){ this.id = id; }
-    public String GetUser(){ return user; }
-    public void SetUser(String user){ this.user = user; }
-    public String GetFriend(){ return friend; }
-    public void SetFriend(String friend){ this.friend = friend; }
+    public String GetUserEmail(){ return user; }
+    public void SetUserEmail(String user){ this.user = user; }
+    public String GetFriendEmail(){ return friend; }
+    public void SetFriendEmail(String friend){ this.friend = friend; }
 }
