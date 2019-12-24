@@ -59,6 +59,14 @@ public class ApiApplicationTests {
         Assert.assertEquals("newtest@test.com", user.GetEmail());
     }
 
+    /**
+     * Code for testing the User model SetEmail
+     */
+    @Test
+    public void SetUserEmailWrong(){
+        user.SetEmail("newtest");
+        Assert.assertEquals("newtest", user.GetEmail());
+    }
 
     /**
      * Code for testing the User model GetName

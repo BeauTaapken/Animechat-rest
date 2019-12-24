@@ -107,6 +107,11 @@
             <version>5.2.2.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>6.11.0</version>
+        </dependency>
     </dependencies>
 
     <build>
