@@ -1,4 +1,4 @@
-package animechat.rest.api.Config;
+package animechat.rest.api.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +21,13 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
+
+    /**
+     * This function is used when creating json for swagger
+     * @return ApiInfo
+     */
     private ApiInfo metaData() {
-        ApiInfo apiInfo = new ApiInfo(
+        return new ApiInfo(
                 "Animechat REST API",
                 "Animechat REST API for database",
                 "1.0.0",
@@ -31,6 +36,5 @@ public class SwaggerConfig {
                 "Apache license version 2.0",
                 "https://www.apache.org/licenses/LICENSE-2.0"
         );
-        return apiInfo;
     }
 }

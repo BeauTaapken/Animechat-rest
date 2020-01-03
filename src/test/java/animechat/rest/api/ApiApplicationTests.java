@@ -47,7 +47,7 @@ public class ApiApplicationTests {
      */
     @Test
     public void GetUserEmail(){
-        Assert.assertEquals("test@test.com", user.GetEmail());
+        Assert.assertEquals("test@test.com", user.getEmail());
     }
 
     /**
@@ -55,8 +55,8 @@ public class ApiApplicationTests {
      */
     @Test
     public void SetUserEmail(){
-        user.SetEmail("newtest@test.com");
-        Assert.assertEquals("newtest@test.com", user.GetEmail());
+        user.setEmail("newtest@test.com");
+        Assert.assertEquals("newtest@test.com", user.getEmail());
     }
 
     /**
@@ -64,8 +64,8 @@ public class ApiApplicationTests {
      */
     @Test
     public void SetUserEmailWrong(){
-        user.SetEmail("newtest");
-        Assert.assertEquals("newtest", user.GetEmail());
+        user.setEmail("newtest");
+        Assert.assertEquals("newtest", user.getEmail());
     }
 
     /**
@@ -73,7 +73,7 @@ public class ApiApplicationTests {
      */
     @Test
     public void GetUserName(){
-        Assert.assertEquals("testuser", user.GetName());
+        Assert.assertEquals("testuser", user.getName());
     }
 
     /**
@@ -81,8 +81,8 @@ public class ApiApplicationTests {
      */
     @Test
     public void SetUserName(){
-        user.SetName("newtestuser");
-        Assert.assertEquals("newtestuser", user.GetName());
+        user.setName("newtestuser");
+        Assert.assertEquals("newtestuser", user.getName());
     }
 
     /**
@@ -90,7 +90,7 @@ public class ApiApplicationTests {
      */
     @Test
     public void GetImgUrl(){
-        Assert.assertEquals("http://", user.GetImgUrl());
+        Assert.assertEquals("http://", user.getImgUrl());
     }
 
     /**
@@ -99,7 +99,7 @@ public class ApiApplicationTests {
     @Test
     public void SetImgUrl(){
         user.setImgUrl("newhttp://");
-        Assert.assertEquals("newhttp://", user.GetImgUrl());
+        Assert.assertEquals("newhttp://", user.getImgUrl());
     }
 
     /**
@@ -107,7 +107,7 @@ public class ApiApplicationTests {
      */
     @Test
     public void GetFriendId(){
-        Assert.assertEquals(1, friend.GetId());
+        Assert.assertEquals(1, friend.getId());
     }
 
     /**
@@ -115,8 +115,8 @@ public class ApiApplicationTests {
      */
     @Test
     public void SetFriendId(){
-        friend.SetId(8);
-        Assert.assertEquals(8, friend.GetId());
+        friend.setId(8);
+        Assert.assertEquals(8, friend.getId());
     }
 
     /**
@@ -124,7 +124,7 @@ public class ApiApplicationTests {
      */
     @Test
     public void GetUserEmailFromFriend(){
-        Assert.assertEquals("test@test.com", friend.GetUserEmail());
+        Assert.assertEquals("test@test.com", friend.getUserEmail());
     }
 
     /**
@@ -132,8 +132,8 @@ public class ApiApplicationTests {
      */
     @Test
     public void SetUserEmailFromFriend(){
-        friend.SetUserEmail("newtest@test.com");
-        Assert.assertEquals("newtest@test.com", friend.GetUserEmail());
+        friend.setUserEmail("newtest@test.com");
+        Assert.assertEquals("newtest@test.com", friend.getUserEmail());
     }
 
     /**
@@ -141,7 +141,7 @@ public class ApiApplicationTests {
      */
     @Test
     public void GetFriendEmail(){
-        Assert.assertEquals("testfriend@test.com", friend.GetFriendEmail());
+        Assert.assertEquals("testfriend@test.com", friend.getFriendEmail());
     }
 
     /**
@@ -149,8 +149,8 @@ public class ApiApplicationTests {
      */
     @Test
     public void SetFriendEmail(){
-        friend.SetFriendEmail("newtestfriend@test.com");
-        Assert.assertEquals("newtestfriend@test.com", friend.GetFriendEmail());
+        friend.setFriendEmail("newtestfriend@test.com");
+        Assert.assertEquals("newtestfriend@test.com", friend.getFriendEmail());
     }
 
     /**
@@ -279,7 +279,7 @@ public class ApiApplicationTests {
         friends.add(new Friend(1, "testuser@test.com", "testfriend@test.com"));
         friends.add(new Friend(2, "testuser@test.com", "testfriend2@test.com"));
         friends.add(new Friend(2, "test@test.com", "testfriend2@test.com"));
-        List<String> userEmails = fc.MakeFriendEmailList("testuser@test.com", friends);
+        List<String> userEmails = fc.makeFriendEmailList("testuser@test.com", friends);
         List<String> expectedUserEmails = new ArrayList<>();
         expectedUserEmails.add("testfriend@test.com");
         expectedUserEmails.add("testfriend2@test.com");

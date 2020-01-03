@@ -8,15 +8,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/user")
 @RestController
 @Api(value="AnimeChat")
-public class userController {
+public class UserController {
     @Autowired
     private UserRepository userRepo;
 
@@ -27,8 +24,8 @@ public class userController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @RequestMapping(path = "/adduser", method = RequestMethod.POST)
-    public void AddUser(@RequestBody String user){
+    @PostMapping(path = "/adduser")
+    public void addUser(@RequestBody String user){
         User u = new Gson().fromJson(user, User.class);
         userRepo.save(u);
     }

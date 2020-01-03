@@ -46,10 +46,10 @@ public class User {
         this.imgUrl = imgUrl;
     }
 
-    public String GetEmail(){ return email; }
-    public void SetEmail(String email){ this.email = email; }
-    public String GetName(){ return name; }
-    public void SetName(String name){ this.name = name; }
-    public String GetImgUrl(){ return imgUrl; }
+    public String getEmail(){ return email; }
+    public void setEmail(String email){ this.email = email; }
+    public String getName(){ return name; }
+    public void setName(String name){ this.name = name; }
+    public String getImgUrl(){ return imgUrl; }
     public void setImgUrl(String imgUrl){ this.imgUrl = imgUrl; }
 }

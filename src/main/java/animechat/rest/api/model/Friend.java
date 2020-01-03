@@ -25,6 +25,11 @@ public class Friend {
     @NotNull
     @Email
     @ApiModelProperty(notes = "The saved emailadres of a friend", required = true)
+    /**
+     * The name of this private variable is friend, because of the name of the tableitem
+     * it refers to in the database. This shouldn't be changed to favor sonarqube unless
+     * the naming in the database also changes
+     */
     private String friend;
 
     /**
@@ -55,10 +60,10 @@ public class Friend {
         this.friend = friendEmail;
     }
 
-    public int GetId(){ return id; }
-    public void SetId(int id){ this.id = id; }
-    public String GetUserEmail(){ return user; }
-    public void SetUserEmail(String user){ this.user = user; }
-    public String GetFriendEmail(){ return friend; }
-    public void SetFriendEmail(String friend){ this.friend = friend; }
+    public int getId(){ return id; }
+    public void setId(int id){ this.id = id; }
+    public String getUserEmail(){ return user; }
+    public void setUserEmail(String user){ this.user = user; }
+    public String getFriendEmail(){ return friend; }
+    public void setFriendEmail(String friend){ this.friend = friend; }
 }

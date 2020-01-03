@@ -1,0 +1,9 @@
+animechat\rest\api\config\SwaggerConfig.class
+animechat\rest\api\repository\UserRepository.class
+animechat\rest\api\model\Friend.class
+animechat\rest\api\model\User.class
+animechat\rest\api\config\CorsConfig.class
+animechat\rest\api\repository\FriendRepository.class
+animechat\rest\api\ApiApplication.class
+animechat\rest\api\controllers\FriendController.class
+animechat\rest\api\controllers\UserController.class

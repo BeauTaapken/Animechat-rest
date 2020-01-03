@@ -4,11 +4,6 @@ import animechat.rest.api.model.Friend;
 import animechat.rest.api.model.User;
 import animechat.rest.api.repository.FriendRepository;
 import animechat.rest.api.repository.UserRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseToken;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,14 +33,14 @@ public class FriendController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @RequestMapping(path = "/findfriends/{userEmail:.+}", method = RequestMethod.GET)
-    public String GetUserFriends(@PathVariable String userEmail) throws JsonProcessingException {
+    @GetMapping(path = "/findfriends/{userEmail:.+}")
+    public String getUserFriends(@PathVariable String userEmail) {
         List<Friend> friends = friendRepo.findAll();
         List<User> users = userRepo.findAll();
 
-        List<String> friendEmails = MakeFriendEmailList(userEmail, friends);
+        List<String> friendEmails = makeFriendEmailList(userEmail, friends);
 
-        List<User> filteredUsers = users.stream().filter(x -> friendEmails.contains(x.GetEmail())).collect(Collectors.toList());
+        List<User> filteredUsers = users.stream().filter(x -> friendEmails.contains(x.getEmail())).collect(Collectors.toList());
 
         return new Gson().toJson(filteredUsers);
     }
@@ -57,14 +52,14 @@ public class FriendController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @RequestMapping(path = "/findnonfriends/{userEmail:.+}", method = RequestMethod.GET)
-    public String GetNonFriends(@PathVariable String userEmail) throws JsonProcessingException {
+    @GetMapping(path = "/findnonfriends/{userEmail:.+}")
+    public String getNonFriends(@PathVariable String userEmail) {
         List<Friend> friends = friendRepo.findAll();
         List<User> users = userRepo.findAll();
 
-        List<String> friendEmails = MakeFriendEmailList(userEmail, friends);
+        List<String> friendEmails = makeFriendEmailList(userEmail, friends);
         friendEmails.add(userEmail);
-        List<User> filteredUsers = users.stream().filter(x -> !friendEmails.contains(x.GetEmail())).collect(Collectors.toList());
+        List<User> filteredUsers = users.stream().filter(x -> !friendEmails.contains(x.getEmail())).collect(Collectors.toList());
 
         return new Gson().toJson(filteredUsers);
     }
@@ -76,20 +71,20 @@ public class FriendController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @RequestMapping(path = "/addfriend", method = RequestMethod.POST)
-    public void AddFriend(@RequestBody String friend){
+    @PostMapping(path = "/addfriend")
+    public void addFriend(@RequestBody String friend){
         Friend f = new Gson().fromJson(friend, Friend.class);
         friendRepo.save(f);
     }
 
-    public List<String> MakeFriendEmailList(String userEmail, List<Friend> friends){
+    public List<String> makeFriendEmailList(String userEmail, List<Friend> friends){
         //Gets all friends of the specified user
-        List<Friend> filteredFriends = friends.stream().filter(x -> x.GetUserEmail().equals(userEmail)).collect(Collectors.toList());
+        List<Friend> filteredFriends = friends.stream().filter(x -> x.getUserEmail().equals(userEmail)).collect(Collectors.toList());
 
         //Adds all the emails of friends of the specified user to a list
         List<String> friendEmails = new ArrayList<>();
         for (Friend f : filteredFriends) {
-            friendEmails.add(f.GetFriendEmail());
+            friendEmails.add(f.getFriendEmail());
         }
 
         return friendEmails;
