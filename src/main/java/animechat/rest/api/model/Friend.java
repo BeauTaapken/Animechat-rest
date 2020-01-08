@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 @EntityListeners(AuditingEntityListener.class)
 public class Friend {
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     @ApiModelProperty(notes = "The database generated product ID", required = true)
     private int id;

@@ -1,12 +1,12 @@
 package animechat.rest.api.controller;
 
+import animechat.rest.api.logic.LoggerLogic;
 import animechat.rest.api.logic.UserLogic;
+import animechat.rest.api.model.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,8 @@ public class UserController {
     @Autowired
     private UserLogic userLogic;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    @Autowired
+    private LoggerLogic loggerLogic;
 
     @ApiOperation(value = "Adds a user to the database")
     @ApiResponses(value = {
@@ -27,14 +28,12 @@ public class UserController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @PostMapping(path = "/adduser")
-    public void addUser(@RequestBody String user){
-        //TODO check if user is a userobject
+    public void addUser(@RequestBody User user){
         try{
             userLogic.addUser(user);
         }
         catch(Exception e){
-            logger.error(String.valueOf(e));
+            loggerLogic.errorLogging(String.valueOf(e));
         }
-
     }
 }

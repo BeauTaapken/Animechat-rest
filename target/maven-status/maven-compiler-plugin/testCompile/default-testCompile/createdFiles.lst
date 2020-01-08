@@ -1,1 +1,3 @@
-animechat\rest\api\ApiApplicationTests.class
+animechat\rest\api\IntergrationApplicationTests.class
+animechat\rest\api\LogicApplicationTests.class
+animechat\rest\api\ModelApplicationTests.class

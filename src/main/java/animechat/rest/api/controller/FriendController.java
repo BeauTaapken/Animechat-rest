@@ -1,6 +1,7 @@
 package animechat.rest.api.controller;
 
 import animechat.rest.api.logic.FriendLogic;
+import animechat.rest.api.logic.LoggerLogic;
 import animechat.rest.api.model.Friend;
 import animechat.rest.api.model.User;
 import com.google.gson.Gson;
@@ -8,8 +9,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
@@ -22,7 +21,8 @@ public class FriendController {
     @Autowired
     private FriendLogic friendLogic;
 
-    private static final Logger logger = LoggerFactory.getLogger(FriendController.class);
+    @Autowired
+    private LoggerLogic loggerLogic;
 
     //Function for getting users friends based on userEmail
     @ApiOperation(value = "Get a list of all friends of a user", response = User.class, responseContainer = "List")
@@ -36,7 +36,6 @@ public class FriendController {
     public String getUserFriends(@PathVariable String userEmail) {
         List<User> filteredUsers = new ArrayList<>();
 
-        //Is userEmail a email
         if(friendLogic.isEmail(userEmail)){
             filteredUsers = friendLogic.getUserFriends(userEmail);
         }
@@ -55,7 +54,6 @@ public class FriendController {
     public String getNonFriends(@PathVariable String userEmail) {
         List<User> filteredUsers = new ArrayList<>();
 
-        //Is userEmail a email
         if(friendLogic.isEmail(userEmail)){
             filteredUsers = friendLogic.getNonFriends(userEmail);
         }
@@ -76,7 +74,7 @@ public class FriendController {
             friendLogic.addFriend(friend);
         }
         catch(Exception e){
-            logger.error(String.valueOf(e));
+            loggerLogic.errorLogging(String.valueOf(e));
         }
     }
 }

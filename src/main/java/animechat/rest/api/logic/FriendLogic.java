@@ -4,7 +4,6 @@ import animechat.rest.api.model.Friend;
 import animechat.rest.api.model.User;
 import animechat.rest.api.repository.FriendRepository;
 import animechat.rest.api.repository.UserRepository;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,45 +14,62 @@ import java.util.stream.Collectors;
 
 @Service
 public class FriendLogic {
+    // <editor-fold defaultstate="collapsed" desc="Constructor">
     private UserRepository userRepo;
     private FriendRepository friendRepo;
+    private LoggerLogic loggerLogic;
 
     @Autowired
-    public FriendLogic(UserRepository userRepo, FriendRepository friendRepo){
+    public FriendLogic(UserRepository userRepo, FriendRepository friendRepo, LoggerLogic loggerLogic){
         this.userRepo = userRepo;
         this.friendRepo = friendRepo;
+        this.loggerLogic = loggerLogic;
     }
+    // </editor-fold>
 
     public List<User> getUserFriends(String userEmail){
-        List<Friend> friends = friendRepo.findAll();
-        List<User> users = userRepo.findAll();
+        try{
+            List<Friend> friends = friendRepo.findAll();
+            List<User> users = userRepo.findAll();
 
-        List<String> friendEmails = makeFriendEmailList(userEmail, friends);
+            List<String> friendEmails = makeFriendEmailList(userEmail, friends);
 
-        return users.stream().filter(x -> friendEmails.contains(x.getEmail())).collect(Collectors.toList());
+            return users.stream().filter(x -> friendEmails.contains(x.getEmail())).collect(Collectors.toList());
+        }
+        catch (Exception e){
+            loggerLogic.errorLogging(String.valueOf(e));
+            return new ArrayList<>();
+        }
     }
 
     public List<User> getNonFriends(String userEmail){
-        List<Friend> friends = friendRepo.findAll();
-        List<User> users = userRepo.findAll();
+        try{
+            List<Friend> friends = friendRepo.findAll();
+            List<User> users = userRepo.findAll();
 
-        List<String> friendEmails = makeFriendEmailList(userEmail, friends);
-        friendEmails.add(userEmail);
-        return users.stream().filter(x -> !friendEmails.contains(x.getEmail())).collect(Collectors.toList());
+            List<String> friendEmails = makeFriendEmailList(userEmail, friends);
+            friendEmails.add(userEmail);
+            return users.stream().filter(x -> !friendEmails.contains(x.getEmail())).collect(Collectors.toList());
+        }
+        catch (Exception e){
+            loggerLogic.errorLogging(String.valueOf(e));
+            return new ArrayList<>();
+        }
     }
 
     public void addFriend(Friend friend){
-//        Friend f = new Gson().fromJson(friend, Friend.class);
-
-
-        friendRepo.save(friend);
+        try{
+            friendRepo.save(friend);
+        }
+        catch (Exception e) {
+            loggerLogic.errorLogging(String.valueOf(e));
+        }
     }
 
     private List<String> makeFriendEmailList(String userEmail, List<Friend> friends){
         //Gets all friends of the specified user
         List<Friend> filteredFriends = friends.stream().filter(x -> x.getUserEmail().equals(userEmail)).collect(Collectors.toList());
 
-        //Adds all the emails of friends of the specified user to a list
         List<String> friendEmails = new ArrayList<>();
         for (Friend f : filteredFriends) {
             friendEmails.add(f.getFriendEmail());
