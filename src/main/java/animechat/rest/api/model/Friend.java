@@ -1,5 +1,6 @@
 package animechat.rest.api.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -19,11 +20,13 @@ public class Friend {
 
     @NotNull
     @Email
+    @JsonProperty("user")
     @ApiModelProperty(notes = "The saved emailadres of a user", required = true)
     private String user;
 
     @NotNull
     @Email
+    @JsonProperty("friend")
     @ApiModelProperty(notes = "The saved emailadres of a friend", required = true)
     /**
      * The name of this private variable is friend, because of the name of the tableitem

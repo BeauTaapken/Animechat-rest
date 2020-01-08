@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,13 +42,14 @@ public class FriendLogic {
         return users.stream().filter(x -> !friendEmails.contains(x.getEmail())).collect(Collectors.toList());
     }
 
-    public void addFriend(String friend){
-        Friend f = new Gson().fromJson(friend, Friend.class);
+    public void addFriend(Friend friend){
+//        Friend f = new Gson().fromJson(friend, Friend.class);
 
-        friendRepo.save(f);
+
+        friendRepo.save(friend);
     }
 
-    public List<String> makeFriendEmailList(String userEmail, List<Friend> friends){
+    private List<String> makeFriendEmailList(String userEmail, List<Friend> friends){
         //Gets all friends of the specified user
         List<Friend> filteredFriends = friends.stream().filter(x -> x.getUserEmail().equals(userEmail)).collect(Collectors.toList());
 
@@ -58,5 +60,9 @@ public class FriendLogic {
         }
 
         return friendEmails;
+    }
+
+    public boolean isEmail(String userEmail){
+        return Pattern.compile("^(.+)@(.+)+\\.(.+)$").matcher(userEmail).matches();
     }
 }

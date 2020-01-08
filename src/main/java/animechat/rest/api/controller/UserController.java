@@ -5,6 +5,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserLogic userLogic;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @ApiOperation(value = "Adds a user to the database")
     @ApiResponses(value = {
@@ -25,7 +29,12 @@ public class UserController {
     @PostMapping(path = "/adduser")
     public void addUser(@RequestBody String user){
         //TODO check if user is a userobject
+        try{
+            userLogic.addUser(user);
+        }
+        catch(Exception e){
+            logger.error(String.valueOf(e));
+        }
 
-        userLogic.addUser(user);
     }
 }

@@ -1,15 +1,18 @@
 package animechat.rest.api.controller;
 
 import animechat.rest.api.logic.FriendLogic;
+import animechat.rest.api.model.Friend;
 import animechat.rest.api.model.User;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/friend")
@@ -18,6 +21,8 @@ import java.util.List;
 public class FriendController {
     @Autowired
     private FriendLogic friendLogic;
+
+    private static final Logger logger = LoggerFactory.getLogger(FriendController.class);
 
     //Function for getting users friends based on userEmail
     @ApiOperation(value = "Get a list of all friends of a user", response = User.class, responseContainer = "List")
@@ -29,16 +34,12 @@ public class FriendController {
     })
     @GetMapping(path = "/findfriends/{userEmail:.+}")
     public String getUserFriends(@PathVariable String userEmail) {
-//        List<Friend> friends = friendRepo.findAll();
-//        List<User> users = userRepo.findAll();
-//
-//        List<String> friendEmails = makeFriendEmailList(userEmail, friends);
-//
-//        List<User> filteredUsers = users.stream().filter(x -> friendEmails.contains(x.getEmail())).collect(Collectors.toList());
+        List<User> filteredUsers = new ArrayList<>();
 
-        //TODO check if email is real email
-
-        List<User> filteredUsers = friendLogic.getUserFriends(userEmail);
+        //Is userEmail a email
+        if(friendLogic.isEmail(userEmail)){
+            filteredUsers = friendLogic.getUserFriends(userEmail);
+        }
 
         return new Gson().toJson(filteredUsers);
     }
@@ -52,16 +53,12 @@ public class FriendController {
     })
     @GetMapping(path = "/findnonfriends/{userEmail:.+}")
     public String getNonFriends(@PathVariable String userEmail) {
-//        List<Friend> friends = friendRepo.findAll();
-//        List<User> users = userRepo.findAll();
-//
-//        List<String> friendEmails = makeFriendEmailList(userEmail, friends);
-//        friendEmails.add(userEmail);
-//        List<User> filteredUsers = users.stream().filter(x -> !friendEmails.contains(x.getEmail())).collect(Collectors.toList());
+        List<User> filteredUsers = new ArrayList<>();
 
-        //TODO check if email is real email
-
-        List<User> filteredUsers = friendLogic.getNonFriends(userEmail);
+        //Is userEmail a email
+        if(friendLogic.isEmail(userEmail)){
+            filteredUsers = friendLogic.getNonFriends(userEmail);
+        }
 
         return new Gson().toJson(filteredUsers);
     }
@@ -74,10 +71,12 @@ public class FriendController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @PostMapping(path = "/addfriend")
-    public void addFriend(@RequestBody String friend){
-
-        //TODO check if friend is real friendobject
-
-        friendLogic.addFriend(friend);
+    public void addFriend(@RequestBody Friend friend){
+        try{
+            friendLogic.addFriend(friend);
+        }
+        catch(Exception e){
+            logger.error(String.valueOf(e));
+        }
     }
 }

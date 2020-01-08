@@ -343,19 +343,21 @@ public class ApiApplicationTests {
                 .andExpect(status().isBadRequest());
     }
 
-    /**
-     * Code for testing the FriendController MakeFriendEmailList
-     */
     @Test
-    public void CorrectFriendEmailList(){
-        List<Friend> friends = new ArrayList<>();
-        friends.add(new Friend(1, "testuser@test.com", "testfriend@test.com"));
-        friends.add(new Friend(2, "testuser@test.com", "testfriend2@test.com"));
-        friends.add(new Friend(2, "test@test.com", "testfriend2@test.com"));
-        List<String> userEmails = friendLogic.makeFriendEmailList("testuser@test.com", friends);
-        List<String> expectedUserEmails = new ArrayList<>();
-        expectedUserEmails.add("testfriend@test.com");
-        expectedUserEmails.add("testfriend2@test.com");
-        Assert.assertEquals(expectedUserEmails, userEmails);
+    public void CorrectEmail(){
+        boolean isCorrectEmail = friendLogic.isEmail("test@test.com");
+        Assert.assertEquals(true, isCorrectEmail);
+    }
+
+    @Test
+    public void IncorrectEmailNoAt(){
+        boolean isCorrectEmail = friendLogic.isEmail("test.com");
+        Assert.assertEquals(false, isCorrectEmail);
+    }
+
+    @Test
+    public void IncorrectEmailNoDot(){
+        boolean isCorrectEmail = friendLogic.isEmail("test@test");
+        Assert.assertEquals(false, isCorrectEmail);
     }
 }
