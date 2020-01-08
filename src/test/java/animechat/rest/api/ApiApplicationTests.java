@@ -1,6 +1,8 @@
 package animechat.rest.api;
 
-import animechat.rest.api.controllers.FriendController;
+import animechat.rest.api.controller.FriendController;
+import animechat.rest.api.logic.FriendLogic;
+import animechat.rest.api.logic.UserLogic;
 import animechat.rest.api.model.Friend;
 import animechat.rest.api.model.User;
 import com.google.gson.Gson;
@@ -33,6 +35,11 @@ public class ApiApplicationTests {
     private User user = new User("test@test.com", "testuser", "http://");
     private Friend friend = new Friend(1, "test@test.com", "testfriend@test.com");
     private MockMvc mockMvc;
+
+    @Autowired
+    FriendLogic friendLogic;
+    @Autowired
+    UserLogic userLogic;
 
     @Autowired
     private WebApplicationContext wac;
@@ -345,7 +352,7 @@ public class ApiApplicationTests {
         friends.add(new Friend(1, "testuser@test.com", "testfriend@test.com"));
         friends.add(new Friend(2, "testuser@test.com", "testfriend2@test.com"));
         friends.add(new Friend(2, "test@test.com", "testfriend2@test.com"));
-        List<String> userEmails = fc.makeFriendEmailList("testuser@test.com", friends);
+        List<String> userEmails = friendLogic.makeFriendEmailList("testuser@test.com", friends);
         List<String> expectedUserEmails = new ArrayList<>();
         expectedUserEmails.add("testfriend@test.com");
         expectedUserEmails.add("testfriend2@test.com");

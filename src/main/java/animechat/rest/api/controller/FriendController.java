@@ -1,9 +1,7 @@
-package animechat.rest.api.controllers;
+package animechat.rest.api.controller;
 
-import animechat.rest.api.model.Friend;
+import animechat.rest.api.logic.FriendLogic;
 import animechat.rest.api.model.User;
-import animechat.rest.api.repository.FriendRepository;
-import animechat.rest.api.repository.UserRepository;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,18 +10,14 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequestMapping("/friend")
 @RestController
 @Api(value="AnimeChat")
 public class FriendController {
     @Autowired
-    private UserRepository userRepo;
-    @Autowired
-    private FriendRepository friendRepo;
+    private FriendLogic friendLogic;
 
     //Function for getting users friends based on userEmail
     @ApiOperation(value = "Get a list of all friends of a user", response = User.class, responseContainer = "List")
@@ -35,12 +29,16 @@ public class FriendController {
     })
     @GetMapping(path = "/findfriends/{userEmail:.+}")
     public String getUserFriends(@PathVariable String userEmail) {
-        List<Friend> friends = friendRepo.findAll();
-        List<User> users = userRepo.findAll();
+//        List<Friend> friends = friendRepo.findAll();
+//        List<User> users = userRepo.findAll();
+//
+//        List<String> friendEmails = makeFriendEmailList(userEmail, friends);
+//
+//        List<User> filteredUsers = users.stream().filter(x -> friendEmails.contains(x.getEmail())).collect(Collectors.toList());
 
-        List<String> friendEmails = makeFriendEmailList(userEmail, friends);
+        //TODO check if email is real email
 
-        List<User> filteredUsers = users.stream().filter(x -> friendEmails.contains(x.getEmail())).collect(Collectors.toList());
+        List<User> filteredUsers = friendLogic.getUserFriends(userEmail);
 
         return new Gson().toJson(filteredUsers);
     }
@@ -54,12 +52,16 @@ public class FriendController {
     })
     @GetMapping(path = "/findnonfriends/{userEmail:.+}")
     public String getNonFriends(@PathVariable String userEmail) {
-        List<Friend> friends = friendRepo.findAll();
-        List<User> users = userRepo.findAll();
+//        List<Friend> friends = friendRepo.findAll();
+//        List<User> users = userRepo.findAll();
+//
+//        List<String> friendEmails = makeFriendEmailList(userEmail, friends);
+//        friendEmails.add(userEmail);
+//        List<User> filteredUsers = users.stream().filter(x -> !friendEmails.contains(x.getEmail())).collect(Collectors.toList());
 
-        List<String> friendEmails = makeFriendEmailList(userEmail, friends);
-        friendEmails.add(userEmail);
-        List<User> filteredUsers = users.stream().filter(x -> !friendEmails.contains(x.getEmail())).collect(Collectors.toList());
+        //TODO check if email is real email
+
+        List<User> filteredUsers = friendLogic.getNonFriends(userEmail);
 
         return new Gson().toJson(filteredUsers);
     }
@@ -73,20 +75,9 @@ public class FriendController {
     })
     @PostMapping(path = "/addfriend")
     public void addFriend(@RequestBody String friend){
-        Friend f = new Gson().fromJson(friend, Friend.class);
-        friendRepo.save(f);
-    }
 
-    public List<String> makeFriendEmailList(String userEmail, List<Friend> friends){
-        //Gets all friends of the specified user
-        List<Friend> filteredFriends = friends.stream().filter(x -> x.getUserEmail().equals(userEmail)).collect(Collectors.toList());
+        //TODO check if friend is real friendobject
 
-        //Adds all the emails of friends of the specified user to a list
-        List<String> friendEmails = new ArrayList<>();
-        for (Friend f : filteredFriends) {
-            friendEmails.add(f.getFriendEmail());
-        }
-
-        return friendEmails;
+        friendLogic.addFriend(friend);
     }
 }

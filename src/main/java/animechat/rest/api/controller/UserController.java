@@ -1,8 +1,6 @@
-package animechat.rest.api.controllers;
+package animechat.rest.api.controller;
 
-import animechat.rest.api.model.User;
-import animechat.rest.api.repository.UserRepository;
-import com.google.gson.Gson;
+import animechat.rest.api.logic.UserLogic;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value="AnimeChat")
 public class UserController {
     @Autowired
-    private UserRepository userRepo;
+    private UserLogic userLogic;
 
     @ApiOperation(value = "Adds a user to the database")
     @ApiResponses(value = {
@@ -26,7 +24,8 @@ public class UserController {
     })
     @PostMapping(path = "/adduser")
     public void addUser(@RequestBody String user){
-        User u = new Gson().fromJson(user, User.class);
-        userRepo.save(u);
+        //TODO check if user is a userobject
+
+        userLogic.addUser(user);
     }
 }
