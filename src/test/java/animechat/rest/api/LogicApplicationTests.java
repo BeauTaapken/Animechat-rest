@@ -51,9 +51,9 @@ public class LogicApplicationTests {
     // <editor-fold defaultstate="collapsed" desc="FriendLogic getNonFriends tests">
     @Test
     public void getNonFriendsCorrectly(){
-        List<User> nonFriends = friendLogic.getNonFriends("hasnofriends@test.com");
+        List<User> nonFriends = friendLogic.getNonFriends("testfriend@test.com");
 
-        int expectedAmmount = 2;
+        int expectedAmmount = 1;
 
         Assert.assertEquals(expectedAmmount, nonFriends.size());
     }
@@ -62,7 +62,7 @@ public class LogicApplicationTests {
     public void getNonFriendsIncorrectly(){
         List<User> nonFriends = friendLogic.getNonFriends("test");
 
-        int expectedAmmount = 2;
+        int expectedAmmount = 0;
 
         Assert.assertEquals(expectedAmmount, nonFriends.size());
     }

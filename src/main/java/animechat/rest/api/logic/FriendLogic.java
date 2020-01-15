@@ -42,6 +42,10 @@ public class FriendLogic {
 
     public List<User> getNonFriends(String userEmail){
         try{
+            if(!isEmail(userEmail)){
+                throw new IllegalArgumentException();
+            }
+
             List<Friend> friends = friendRepo.findAll();
             List<User> users = userRepo.findAll();
 
