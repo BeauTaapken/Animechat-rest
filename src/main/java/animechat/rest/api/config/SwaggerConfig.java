@@ -1,4 +1,4 @@
-package animechat.rest.api.config;
+package animechat.rest.api.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

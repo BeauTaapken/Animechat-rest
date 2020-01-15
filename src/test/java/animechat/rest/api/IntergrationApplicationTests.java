@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -31,7 +30,6 @@ import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebAppConfiguration
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations="classpath:application-test.properties")
 @SpringBootTest
@@ -58,24 +56,23 @@ public class IntergrationApplicationTests {
 
     // <editor-fold defaultstate="collapsed" desc="Error code tests">
     @Test
-    public void Get404Error() throws Exception {
+    public void get404Error() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/wrongurl")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(user))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(404));
 
         MvcResult result = action.andReturn();
 
-        Assert.assertEquals(404, result.getResponse().getStatus());
+        int expected = 404;
+
+        Assert.assertEquals(expected, result.getResponse().getStatus());
     }
     // </editor-fold>
 
-
-
     // <editor-fold defaultstate="collapsed" desc="/friend/findnonfriends tests">
     @Test
-    public void GetFilledNonFriendList() throws Exception {
+    public void getFilledNonFriendList() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findnonfriends/testfriend@test.com")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(user))
@@ -90,7 +87,7 @@ public class IntergrationApplicationTests {
     }
 
     @Test
-    public void GetFilledNonFriendListNoAtEmail() throws Exception {
+    public void getFilledNonFriendListNoAtEmail() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findnonfriends/testfriend.com")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(user))
@@ -105,7 +102,7 @@ public class IntergrationApplicationTests {
     }
 
     @Test
-    public void GetFilledNonFriendListNoDotEmail() throws Exception {
+    public void getFilledNonFriendListNoDotEmail() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findnonfriends/testfriend@test")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(user))
@@ -120,7 +117,7 @@ public class IntergrationApplicationTests {
     }
 
     @Test
-    public void GetEmptyNonFriendList() throws Exception {
+    public void getEmptyNonFriendList() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findnonfriends/test@test.com")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(user))
@@ -137,7 +134,7 @@ public class IntergrationApplicationTests {
 
     // <editor-fold defaultstate="collapsed" desc="/user/adduser tests">
     @Test
-    public void AddUserCorrectly() throws Exception {
+    public void addUserCorrectly() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/user/adduser")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(user))
@@ -146,7 +143,7 @@ public class IntergrationApplicationTests {
     }
 
     @Test
-    public void AddUserButFriend() throws Exception {
+    public void addUserButFriend() throws Exception {
         listAppender.start();
         logger.addAppender(listAppender);
 
@@ -164,7 +161,7 @@ public class IntergrationApplicationTests {
     }
 
     @Test
-    public void AddUserIncorrectly() throws Exception {
+    public void addUserIncorrectly() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/user/adduser")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("")
@@ -175,7 +172,7 @@ public class IntergrationApplicationTests {
 
     // <editor-fold defaultstate="collapsed" desc="/friend/addfriend tests">
     @Test
-    public void AddFriendCorrectly() throws Exception {
+    public void addFriendCorrectly() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/friend/addfriend")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(friend))
@@ -184,7 +181,7 @@ public class IntergrationApplicationTests {
     }
 
     @Test
-    public void AddFriendButUser() throws Exception {
+    public void addFriendButUser() throws Exception {
         listAppender.start();
         logger.addAppender(listAppender);
 
@@ -202,7 +199,7 @@ public class IntergrationApplicationTests {
     }
 
     @Test
-    public void AddFriendIncorrectly() throws Exception {
+    public void addFriendIncorrectly() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/friend/addfriend")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("")
@@ -213,7 +210,7 @@ public class IntergrationApplicationTests {
 
     // <editor-fold defaultstate="collapsed" desc="/friend/findfriends tests">
     @Test
-    public void GetFilledFriendList() throws Exception {
+    public void getFilledFriendList() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/user/adduser")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(user))
@@ -246,7 +243,7 @@ public class IntergrationApplicationTests {
     }
 
     @Test
-    public void GetFilledFriendListNoAtEmail() throws Exception {
+    public void getFilledFriendListNoAtEmail() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findfriends/test.com")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(user))
@@ -261,7 +258,7 @@ public class IntergrationApplicationTests {
     }
 
     @Test
-    public void GetFilledFriendListNoDotEmail() throws Exception {
+    public void getFilledFriendListNoDotEmail() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findfriends/test@test")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(user))
@@ -275,7 +272,7 @@ public class IntergrationApplicationTests {
         Assert.assertEquals(expectedResult, result.getResponse().getContentAsString());
     }
     @Test
-    public void GetEmptyFriendList() throws Exception {
+    public void getEmptyFriendList() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findfriends/hasnofriends@test.com")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(user))
