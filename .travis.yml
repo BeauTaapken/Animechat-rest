@@ -17,4 +17,4 @@ install:
 
 script:
   # other script steps might be done before running the actual analysis
-  - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=beautaapken
+  - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=websocket
