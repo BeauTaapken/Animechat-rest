@@ -1,6 +1,8 @@
 package animechat.rest.api;
 
+import animechat.rest.api.logic.FriendLogic;
 import animechat.rest.api.logic.LoggerLogic;
+import animechat.rest.api.logic.UserLogic;
 import animechat.rest.api.model.Friend;
 import animechat.rest.api.model.User;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -48,9 +50,16 @@ public class IntergrationApplicationTests {
     @Autowired
     private WebApplicationContext wac;
 
+    @Autowired
+    private UserLogic userLogic;
+
     @Before
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+
+        userLogic.addUser(user);
+
+        userLogic.addUser(userFriend);
     }
     // </editor-fold>
 
@@ -211,18 +220,6 @@ public class IntergrationApplicationTests {
     // <editor-fold defaultstate="collapsed" desc="/friend/findfriends tests">
     @Test
     public void getFilledFriendList() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/user/adduser")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(user))
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(200));
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/user/adduser")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(userFriend))
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(200));
-
         mockMvc.perform(MockMvcRequestBuilders.post("/friend/addfriend")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(friend))
