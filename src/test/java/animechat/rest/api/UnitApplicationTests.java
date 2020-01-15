@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations="classpath:application-test.properties")
 @SpringBootTest
-public class LogicApplicationTests {
+public class UnitApplicationTests {
     // <editor-fold defaultstate="collapsed" desc="Setup">
     private User user = new User("test@test.com", "testuser", "http://");
     private Friend friend = new Friend("test@test.com", "testfriend@test.com");
