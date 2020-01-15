@@ -14,7 +14,6 @@ addons:
   
 install:
   - "mvn -N io.takari:maven:wrapper -Dmaven=${MAVEN_VERSION}"
-  - "./mvnw --show-version --errors --batch-mode test-compile dependency:go-offline"
 
 script:
   # other script steps might be done before running the actual analysis
