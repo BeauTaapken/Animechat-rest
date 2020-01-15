@@ -1,5 +1,6 @@
 package animechat.rest.api.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -12,21 +13,30 @@ import javax.validation.constraints.NotNull;
 @EntityListeners(AuditingEntityListener.class)
 public class Friend {
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     @ApiModelProperty(notes = "The database generated product ID", required = true)
     private int id;
 
     @NotNull
     @Email
+    @JsonProperty("user")
     @ApiModelProperty(notes = "The saved emailadres of a user", required = true)
     private String user;
 
     @NotNull
     @Email
+    @JsonProperty("friend")
     @ApiModelProperty(notes = "The saved emailadres of a friend", required = true)
+    /**
+     * The name of this private variable is friend, because of the name of the tableitem
+     * it refers to in the database. This shouldn't be changed to favor sonarqube unless
+     * the naming in the database also changes
+     */
     private String friend;
 
+    /**
+     * Used for normal use
+     */
     public Friend(){
     }
 
@@ -52,10 +62,10 @@ public class Friend {
         this.friend = friendEmail;
     }
 
-    public int GetId(){ return id; }
-    public void SetId(int id){ this.id = id; }
-    public String GetUserEmail(){ return user; }
-    public void SetUserEmail(String user){ this.user = user; }
-    public String GetFriendEmail(){ return friend; }
-    public void SetFriendEmail(String friend){ this.friend = friend; }
+    public int getId(){ return id; }
+    public void setId(int id){ this.id = id; }
+    public String getUserEmail(){ return user; }
+    public void setUserEmail(String user){ this.user = user; }
+    public String getFriendEmail(){ return friend; }
+    public void setFriendEmail(String friend){ this.friend = friend; }
 }

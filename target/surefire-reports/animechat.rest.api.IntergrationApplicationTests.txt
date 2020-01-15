@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: animechat.rest.api.IntergrationApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.6 s - in animechat.rest.api.IntergrationApplicationTests

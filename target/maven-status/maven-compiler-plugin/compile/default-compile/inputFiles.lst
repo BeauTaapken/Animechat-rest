@@ -1,0 +1,12 @@
+D:\School\Fontys\Leerjaar_2\Individueel\animechat-rest\src\main\java\animechat\rest\api\config\CorsConfig.java
+D:\School\Fontys\Leerjaar_2\Individueel\animechat-rest\src\main\java\animechat\rest\api\logic\LoggerLogic.java
+D:\School\Fontys\Leerjaar_2\Individueel\animechat-rest\src\main\java\animechat\rest\api\repository\UserRepository.java
+D:\School\Fontys\Leerjaar_2\Individueel\animechat-rest\src\main\java\animechat\rest\api\ApiApplication.java
+D:\School\Fontys\Leerjaar_2\Individueel\animechat-rest\src\main\java\animechat\rest\api\controller\UserController.java
+D:\School\Fontys\Leerjaar_2\Individueel\animechat-rest\src\main\java\animechat\rest\api\config\SwaggerConfig.java
+D:\School\Fontys\Leerjaar_2\Individueel\animechat-rest\src\main\java\animechat\rest\api\model\User.java
+D:\School\Fontys\Leerjaar_2\Individueel\animechat-rest\src\main\java\animechat\rest\api\logic\UserLogic.java
+D:\School\Fontys\Leerjaar_2\Individueel\animechat-rest\src\main\java\animechat\rest\api\controller\FriendController.java
+D:\School\Fontys\Leerjaar_2\Individueel\animechat-rest\src\main\java\animechat\rest\api\model\Friend.java
+D:\School\Fontys\Leerjaar_2\Individueel\animechat-rest\src\main\java\animechat\rest\api\logic\FriendLogic.java
+D:\School\Fontys\Leerjaar_2\Individueel\animechat-rest\src\main\java\animechat\rest\api\repository\FriendRepository.java
