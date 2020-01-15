@@ -10,16 +10,14 @@ env:
 addons:
 sonarcloud:
   organization: "beautaapken" # the key of the org you chose at step #3
-  token:
-    secure: "557282e765ef125f1b42f93bf02cc4be8206eca2" # encrypted value of your token
+  token: "557282e765ef125f1b42f93bf02cc4be8206eca2" # encrypted value of your token
+  
+script:
+  # other script steps might be done before running the actual analysis
+  - mvn sonar:sonar -Pcoverage -Dsonar.projectKey=beautaapken
   
 install:
   - "mvn -N io.takari:maven:wrapper -Dmaven=${MAVEN_VERSION}"
   - "./mvnw --show-version --errors --batch-mode test-compile dependency:go-offline"
   
 script: "./mvnw --show-version --errors --batch-mode -Prun-its clean verify"
-
-
-script:
-  # other script steps might be done before running the actual analysis
-  - mvn sonar:sonar -Pcoverage -Dsonar.projectKey=beautaapken
