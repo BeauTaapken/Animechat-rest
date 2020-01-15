@@ -5,16 +5,16 @@ jdk:
 
 
 env:
- - MAVEN_VERSION=3.3.9
-
+  - MAVEN_VERSION=3.3.9
+  
 addons:
  sonarcloud:
-  organization: "beautaapken" # the key of the org you chose at step #3
-
+   organization: "beautaapken" # the key of the org you chose at step #
+  
 install:
- - "mvn -N io.takari:maven:wrapper -Dmaven=${MAVEN_VERSION}"
-#  - "./mvnw --show-version --errors --batch-mode -Prun-its clean verify"
+  - "mvn -N io.takari:maven:wrapper -Dmaven=${MAVEN_VERSION}"
+#   - "./mvnw --show-version --errors --batch-mode test-compile dependency:go-offline"
 
 script:
- # other script steps might be done before running the actual analysis
- - mvn clean install sonar:sonar -Dsonar.projectKey=beautaapken
+  # other script steps might be done before running the actual analysis
+  - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=beautaapken
