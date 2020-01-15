@@ -5,25 +5,23 @@ import animechat.rest.api.model.User;
 import animechat.rest.api.repository.FriendRepository;
 import animechat.rest.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class FriendLogic {
     // <editor-fold defaultstate="collapsed" desc="Constructor">
     private UserRepository userRepo;
     private FriendRepository friendRepo;
-    private LoggerLogic loggerLogic;
 
     @Autowired
-    public FriendLogic(UserRepository userRepo, FriendRepository friendRepo, LoggerLogic loggerLogic){
+    public FriendLogic(UserRepository userRepo, FriendRepository friendRepo){
         this.userRepo = userRepo;
         this.friendRepo = friendRepo;
-        this.loggerLogic = loggerLogic;
     }
     // </editor-fold>
 
@@ -37,7 +35,7 @@ public class FriendLogic {
             return users.stream().filter(x -> friendEmails.contains(x.getEmail())).collect(Collectors.toList());
         }
         catch (Exception e){
-            loggerLogic.errorLogging(String.valueOf(e));
+            LoggerLogic.errorLogging(String.valueOf(e));
             return new ArrayList<>();
         }
     }
@@ -52,7 +50,7 @@ public class FriendLogic {
             return users.stream().filter(x -> !friendEmails.contains(x.getEmail())).collect(Collectors.toList());
         }
         catch (Exception e){
-            loggerLogic.errorLogging(String.valueOf(e));
+            LoggerLogic.errorLogging(String.valueOf(e));
             return new ArrayList<>();
         }
     }
@@ -62,7 +60,7 @@ public class FriendLogic {
             friendRepo.save(friend);
         }
         catch (Exception e) {
-            loggerLogic.errorLogging(String.valueOf(e));
+            LoggerLogic.errorLogging(String.valueOf(e));
         }
     }
 

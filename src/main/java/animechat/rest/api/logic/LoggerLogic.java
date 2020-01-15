@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class LoggerLogic {
     private static final Logger logger = LoggerFactory.getLogger(LoggerLogic.class);
 
-    public void errorLogging(String error){
+    public static void errorLogging(String error){
         logger.error(error);
     }
 }

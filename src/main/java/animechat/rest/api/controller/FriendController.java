@@ -21,9 +21,6 @@ public class FriendController {
     @Autowired
     private FriendLogic friendLogic;
 
-    @Autowired
-    private LoggerLogic loggerLogic;
-
     //Function for getting users friends based on userEmail
     @ApiOperation(value = "Get a list of all friends of a user", response = User.class, responseContainer = "List")
     @ApiResponses(value = {
@@ -74,7 +71,7 @@ public class FriendController {
             friendLogic.addFriend(friend);
         }
         catch(Exception e){
-            loggerLogic.errorLogging(String.valueOf(e));
+            LoggerLogic.errorLogging(String.valueOf(e));
         }
     }
 }

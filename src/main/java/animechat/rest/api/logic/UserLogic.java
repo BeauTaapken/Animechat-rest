@@ -9,12 +9,10 @@ import org.springframework.stereotype.Service;
 public class UserLogic {
     // <editor-fold defaultstate="collapsed" desc="Constructor">
     private UserRepository userRepo;
-    private LoggerLogic loggerLogic;
 
     @Autowired
-    public UserLogic(UserRepository userRepo, LoggerLogic loggerLogic){
+    public UserLogic(UserRepository userRepo){
         this.userRepo = userRepo;
-        this.loggerLogic = loggerLogic;
     }
     // </editor-fold>
 
@@ -23,7 +21,7 @@ public class UserLogic {
             userRepo.save(user);
         }
         catch(Exception e){
-            loggerLogic.errorLogging(String.valueOf(e));
+            LoggerLogic.errorLogging(String.valueOf(e));
         }
     }
 }

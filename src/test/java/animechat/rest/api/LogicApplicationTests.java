@@ -48,26 +48,6 @@ public class LogicApplicationTests {
     ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="FriendLogic getUserFriends tests">
-    @Test
-    public void getUserFriendsCorrectly(){
-        List<User> friends = friendLogic.getUserFriends("testfriend@test.com");
-
-        int expectedAmmount = 1;
-
-        Assert.assertEquals(expectedAmmount, friends.size());
-    }
-
-    @Test
-    public void getUserFriendsIncorrectly(){
-        List<User> friends = friendLogic.getUserFriends("test");
-
-        int expectedAmmount = 0;
-
-        Assert.assertEquals(expectedAmmount, friends.size());
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="FriendLogic getNonFriends tests">
     @Test
     public void getNonFriendsCorrectly(){
@@ -82,7 +62,7 @@ public class LogicApplicationTests {
     public void getNonFriendsIncorrectly(){
         List<User> nonFriends = friendLogic.getNonFriends("test");
 
-        int expectedAmmount = 3;
+        int expectedAmmount = 2;
 
         Assert.assertEquals(expectedAmmount, nonFriends.size());
     }
@@ -99,6 +79,26 @@ public class LogicApplicationTests {
     @Test
     public void addUserCorrectly(){
         userLogic.addUser(user);
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="FriendLogic getUserFriends tests">
+    @Test
+    public void getUserFriendsCorrectly(){
+        List<User> friends = friendLogic.getUserFriends("testfriend@test.com");
+
+        int expectedAmmount = 0;
+
+        Assert.assertEquals(expectedAmmount, friends.size());
+    }
+
+    @Test
+    public void getUserFriendsIncorrectly(){
+        List<User> friends = friendLogic.getUserFriends("test");
+
+        int expectedAmmount = 0;
+
+        Assert.assertEquals(expectedAmmount, friends.size());
     }
     // </editor-fold>
 

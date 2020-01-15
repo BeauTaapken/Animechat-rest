@@ -17,9 +17,6 @@ public class UserController {
     @Autowired
     private UserLogic userLogic;
 
-    @Autowired
-    private LoggerLogic loggerLogic;
-
     @ApiOperation(value = "Adds a user to the database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully added user"),
@@ -33,7 +30,7 @@ public class UserController {
             userLogic.addUser(user);
         }
         catch(Exception e){
-            loggerLogic.errorLogging(String.valueOf(e));
+            LoggerLogic.errorLogging(String.valueOf(e));
         }
     }
 }
