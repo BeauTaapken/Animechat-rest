@@ -30,15 +30,15 @@ public class UnitApplicationTests {
     private Friend friend = new Friend("test@test.com", "testfriend@test.com");
 
     @Autowired
-    FriendLogic friendLogic;
+    private FriendLogic friendLogic;
     @Autowired
-    UserLogic userLogic;
+    private UserLogic userLogic;
     @Autowired
-    LoggerLogic loggerLogic;
+    private LoggerLogic loggerLogic;
 
-    Logger logger = (Logger) LoggerFactory.getLogger(LoggerLogic.class);
+    private final Logger logger = (Logger) LoggerFactory.getLogger(LoggerLogic.class);
 
-    ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+    private final ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="FriendLogic getNonFriends tests">
@@ -72,6 +72,16 @@ public class UnitApplicationTests {
     @Test
     public void addUserCorrectly(){
         userLogic.addUser(user);
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="UserLogic getAllUsers tests">
+    @Test
+    public void getAllUsers()
+    {
+        List<User> users = userLogic.getAllUsers();
+
+        Assert.assertEquals(2, users.size());
     }
     // </editor-fold>
 

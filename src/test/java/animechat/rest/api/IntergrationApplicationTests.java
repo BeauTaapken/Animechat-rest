@@ -43,9 +43,11 @@ public class IntergrationApplicationTests {
 
     private MockMvc mockMvc;
 
-    Logger logger = (Logger) LoggerFactory.getLogger(LoggerLogic.class);
+    private final Gson gson = new Gson();
 
-    ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+    private final Logger logger = (Logger) LoggerFactory.getLogger(LoggerLogic.class);
+
+    private final ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
 
     @Autowired
     private WebApplicationContext wac;
@@ -84,7 +86,7 @@ public class IntergrationApplicationTests {
     public void getFilledNonFriendList() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findnonfriends/testfriend@test.com")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(user))
+                .content(gson.toJson(user))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
 
@@ -99,7 +101,7 @@ public class IntergrationApplicationTests {
     public void getFilledNonFriendListNoAtEmail() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findnonfriends/testfriend.com")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(user))
+                .content(gson.toJson(user))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
 
@@ -114,7 +116,7 @@ public class IntergrationApplicationTests {
     public void getFilledNonFriendListNoDotEmail() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findnonfriends/testfriend@test")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(user))
+                .content(gson.toJson(user))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
 
@@ -129,7 +131,7 @@ public class IntergrationApplicationTests {
     public void getEmptyNonFriendList() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findnonfriends/test@test.com")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(user))
+                .content(gson.toJson(user))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
 
@@ -146,7 +148,7 @@ public class IntergrationApplicationTests {
     public void addUserCorrectly() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/user/adduser")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(user))
+                .content(gson.toJson(user))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
     }
@@ -158,7 +160,7 @@ public class IntergrationApplicationTests {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/user/adduser")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(friend))
+                .content(gson.toJson(friend))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
 
@@ -184,7 +186,7 @@ public class IntergrationApplicationTests {
     public void addFriendCorrectly() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/friend/addfriend")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(friend))
+                .content(gson.toJson(friend))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
     }
@@ -196,7 +198,7 @@ public class IntergrationApplicationTests {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/friend/addfriend")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(user))
+                .content(gson.toJson(user))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
 
@@ -222,13 +224,13 @@ public class IntergrationApplicationTests {
     public void getFilledFriendList() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/friend/addfriend")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(friend))
+                .content(gson.toJson(friend))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
 
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findfriends/test@test.com")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(user))
+                .content(gson.toJson(user))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
 
@@ -243,7 +245,7 @@ public class IntergrationApplicationTests {
     public void getFilledFriendListNoAtEmail() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findfriends/test.com")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(user))
+                .content(gson.toJson(user))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
 
@@ -258,7 +260,7 @@ public class IntergrationApplicationTests {
     public void getFilledFriendListNoDotEmail() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findfriends/test@test")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(user))
+                .content(gson.toJson(user))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
 
@@ -272,7 +274,7 @@ public class IntergrationApplicationTests {
     public void getEmptyFriendList() throws Exception {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get("/friend/findfriends/hasnofriends@test.com")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(user))
+                .content(gson.toJson(user))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
 

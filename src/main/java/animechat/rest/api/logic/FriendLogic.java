@@ -15,20 +15,20 @@ import java.util.stream.Collectors;
 @Component
 public class FriendLogic {
     // <editor-fold defaultstate="collapsed" desc="Constructor">
-    private UserRepository userRepo;
+    private UserLogic userLogic;
     private FriendRepository friendRepo;
 
     @Autowired
-    public FriendLogic(UserRepository userRepo, FriendRepository friendRepo){
-        this.userRepo = userRepo;
+    public FriendLogic(FriendRepository friendRepo, UserLogic userLogic){
         this.friendRepo = friendRepo;
+        this.userLogic = userLogic;
     }
     // </editor-fold>
 
     public List<User> getUserFriends(String userEmail){
         try{
             List<Friend> friends = friendRepo.findAll();
-            List<User> users = userRepo.findAll();
+            List<User> users = userLogic.getAllUsers();
 
             List<String> friendEmails = makeFriendEmailList(userEmail, friends);
 
@@ -47,7 +47,7 @@ public class FriendLogic {
             }
 
             List<Friend> friends = friendRepo.findAll();
-            List<User> users = userRepo.findAll();
+            List<User> users = userLogic.getAllUsers();
 
             List<String> friendEmails = makeFriendEmailList(userEmail, friends);
             friendEmails.add(userEmail);

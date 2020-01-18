@@ -5,6 +5,8 @@ import animechat.rest.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class UserLogic {
     // <editor-fold defaultstate="collapsed" desc="Constructor">
@@ -23,5 +25,9 @@ public class UserLogic {
         catch(Exception e){
             LoggerLogic.errorLogging(String.valueOf(e));
         }
+    }
+
+    public List<User> getAllUsers(){
+        return userRepo.findAll();
     }
 }

@@ -21,6 +21,8 @@ public class FriendController {
     @Autowired
     private FriendLogic friendLogic;
 
+    private final Gson gson = new Gson();
+
     //Function for getting users friends based on userEmail
     @ApiOperation(value = "Get a list of all friends of a user", response = User.class, responseContainer = "List")
     @ApiResponses(value = {
@@ -37,7 +39,7 @@ public class FriendController {
             filteredUsers = friendLogic.getUserFriends(userEmail);
         }
 
-        return new Gson().toJson(filteredUsers);
+        return gson.toJson(filteredUsers);
     }
 
     @ApiOperation(value = "Get a list of all non friends of a user", response = User.class, responseContainer = "List")
@@ -55,7 +57,7 @@ public class FriendController {
             filteredUsers = friendLogic.getNonFriends(userEmail);
         }
 
-        return new Gson().toJson(filteredUsers);
+        return gson.toJson(filteredUsers);
     }
 
     @ApiOperation(value = "Adds a user friend combination to the database")
