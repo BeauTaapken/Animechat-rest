@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>Animechat.Rest</groupId>
-    <artifactId>api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>api</name>
+    <artifactId>animechat-restapi</artifactId>
+    <version>1.0</version>
+    <name>animechat-restapi</name>
     <description>AnimechatRestApi</description>
 
     <properties>
