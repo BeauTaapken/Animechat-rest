@@ -74,4 +74,4 @@ hs_err_pid*
 .idea/libraries/Maven__org_springframework_spring_aop_5_2_1_RELEASE.xml
 .idea/libraries/Maven__org_opentest4j_opentest4j_1_2_0.xml
 .idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_2_2_1_RELEASE.xml
-target/test-classes/META-INF/animechat-restapi.kotlin_module
+target/*
