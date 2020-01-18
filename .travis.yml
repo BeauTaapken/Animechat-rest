@@ -18,8 +18,8 @@ install:
 
 script:
  - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=animechat-rest
- - docker build -t beataapken/animechat-rest:latest .
+ - docker build -t docker.io/$DOCKER_NAME/animechat-rest:latest .
 
 after_success:
     - docker login -u $DOCKER_NAME -p $DOCKER_PASSWORD
-    - docker push
+    - docker push docker.io/$DOCKER_NAME/animechat-rest:latest
