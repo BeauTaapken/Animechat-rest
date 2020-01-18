@@ -79,6 +79,9 @@ public class UnitApplicationTests {
     @Test
     public void getAllUsers()
     {
+        userLogic.addUser(user);
+        userLogic.addUser(new User("testfriend@test.com", "testfriend", "http://"));
+
         List<User> users = userLogic.getAllUsers();
 
         Assert.assertEquals(2, users.size());
