@@ -1,6 +1,5 @@
 package animechat.rest.api;
 
-import animechat.rest.api.logic.FriendLogic;
 import animechat.rest.api.logic.LoggerLogic;
 import animechat.rest.api.logic.UserLogic;
 import animechat.rest.api.model.Friend;
