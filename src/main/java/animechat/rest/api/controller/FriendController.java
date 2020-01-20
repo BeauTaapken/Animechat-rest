@@ -1,5 +1,6 @@
 package animechat.rest.api.controller;
 
+import animechat.rest.api.interfac.IFriend;
 import animechat.rest.api.logic.FriendLogic;
 import animechat.rest.api.logic.LoggerLogic;
 import animechat.rest.api.model.Friend;
@@ -17,7 +18,7 @@ import java.util.List;
 @RequestMapping("/friend")
 @RestController
 @Api(value="AnimeChat")
-public class FriendController {
+public class FriendController implements IFriend {
     @Autowired
     private FriendLogic friendLogic;
 
@@ -33,13 +34,14 @@ public class FriendController {
     })
     @GetMapping(path = "/findfriends/{userEmail:.+}")
     public String getUserFriends(@PathVariable String userEmail) {
-        List<User> filteredUsers = new ArrayList<>();
+//        List<User> filteredUsers = new ArrayList<>();
+        String filteredUsers = gson.toJson("");
 
         if(friendLogic.isEmail(userEmail)){
             filteredUsers = friendLogic.getUserFriends(userEmail);
         }
 
-        return gson.toJson(filteredUsers);
+        return filteredUsers;
     }
 
     @ApiOperation(value = "Get a list of all non friends of a user", response = User.class, responseContainer = "List")
@@ -51,13 +53,14 @@ public class FriendController {
     })
     @GetMapping(path = "/findnonfriends/{userEmail:.+}")
     public String getNonFriends(@PathVariable String userEmail) {
-        List<User> filteredUsers = new ArrayList<>();
+//        List<User> filteredUsers = new ArrayList<>();
+        String filteredUsers = "";
 
         if(friendLogic.isEmail(userEmail)){
             filteredUsers = friendLogic.getNonFriends(userEmail);
         }
 
-        return gson.toJson(filteredUsers);
+        return filteredUsers;
     }
 
     @ApiOperation(value = "Adds a user friend combination to the database")

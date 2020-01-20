@@ -1,9 +1,11 @@
 package animechat.rest.api.logic;
 
+import animechat.rest.api.interfac.IFriend;
 import animechat.rest.api.model.Friend;
 import animechat.rest.api.model.User;
 import animechat.rest.api.repository.FriendRepository;
 import animechat.rest.api.repository.UserRepository;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +15,12 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Component
-public class FriendLogic {
+public class FriendLogic implements IFriend {
     // <editor-fold defaultstate="collapsed" desc="Constructor">
     private UserLogic userLogic;
     private FriendRepository friendRepo;
+
+    private final Gson gson = new Gson();
 
     @Autowired
     public FriendLogic(FriendRepository friendRepo, UserLogic userLogic){
@@ -25,22 +29,22 @@ public class FriendLogic {
     }
     // </editor-fold>
 
-    public List<User> getUserFriends(String userEmail){
+    public String getUserFriends(String userEmail){
         try{
             List<Friend> friends = friendRepo.findAll();
             List<User> users = userLogic.getAllUsers();
 
             List<String> friendEmails = makeFriendEmailList(userEmail, friends);
 
-            return users.stream().filter(x -> friendEmails.contains(x.getEmail())).collect(Collectors.toList());
+            return gson.toJson(users.stream().filter(x -> friendEmails.contains(x.getEmail())).collect(Collectors.toList()));
         }
         catch (Exception e){
             LoggerLogic.errorLogging(String.valueOf(e));
-            return new ArrayList<>();
+            return gson.toJson("");
         }
     }
 
-    public List<User> getNonFriends(String userEmail){
+    public String getNonFriends(String userEmail){
         try{
             if(!isEmail(userEmail)){
                 throw new IllegalArgumentException();
@@ -51,11 +55,11 @@ public class FriendLogic {
 
             List<String> friendEmails = makeFriendEmailList(userEmail, friends);
             friendEmails.add(userEmail);
-            return users.stream().filter(x -> !friendEmails.contains(x.getEmail())).collect(Collectors.toList());
+            return gson.toJson(users.stream().filter(x -> !friendEmails.contains(x.getEmail())).collect(Collectors.toList()));
         }
         catch (Exception e){
             LoggerLogic.errorLogging(String.valueOf(e));
-            return new ArrayList<>();
+            return gson.toJson("");
         }
     }
 

@@ -1,5 +1,6 @@
 package animechat.rest.api.controller;
 
+import animechat.rest.api.interfac.IUser;
 import animechat.rest.api.logic.LoggerLogic;
 import animechat.rest.api.logic.UserLogic;
 import animechat.rest.api.model.User;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 @RestController
 @Api(value="AnimeChat")
-public class UserController {
+public class UserController implements IUser {
     @Autowired
     private UserLogic userLogic;
 
