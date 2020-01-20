@@ -40,7 +40,7 @@ public class FriendLogic implements IFriend {
         }
         catch (Exception e){
             LoggerLogic.errorLogging(String.valueOf(e));
-            return gson.toJson("");
+            return gson.toJson(new ArrayList<>());
         }
     }
 
@@ -59,7 +59,7 @@ public class FriendLogic implements IFriend {
         }
         catch (Exception e){
             LoggerLogic.errorLogging(String.valueOf(e));
-            return gson.toJson("");
+            return gson.toJson(new ArrayList<>());
         }
     }
 

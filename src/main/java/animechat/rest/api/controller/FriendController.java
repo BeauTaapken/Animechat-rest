@@ -35,7 +35,7 @@ public class FriendController implements IFriend {
     @GetMapping(path = "/findfriends/{userEmail:.+}")
     public String getUserFriends(@PathVariable String userEmail) {
 //        List<User> filteredUsers = new ArrayList<>();
-        String filteredUsers = gson.toJson("");
+        String filteredUsers = gson.toJson(new ArrayList<>());
 
         if(friendLogic.isEmail(userEmail)){
             filteredUsers = friendLogic.getUserFriends(userEmail);
@@ -54,7 +54,7 @@ public class FriendController implements IFriend {
     @GetMapping(path = "/findnonfriends/{userEmail:.+}")
     public String getNonFriends(@PathVariable String userEmail) {
 //        List<User> filteredUsers = new ArrayList<>();
-        String filteredUsers = "";
+        String filteredUsers = gson.toJson(new ArrayList<>());
 
         if(friendLogic.isEmail(userEmail)){
             filteredUsers = friendLogic.getNonFriends(userEmail);

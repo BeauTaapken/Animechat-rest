@@ -9,6 +9,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @WebAppConfiguration
@@ -36,6 +39,8 @@ public class UnitApplicationTests {
     @Autowired
     private LoggerLogic loggerLogic;
 
+    private final Gson gson = new Gson();
+
     private final Logger logger = (Logger) LoggerFactory.getLogger(LoggerLogic.class);
 
     private final ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
@@ -44,20 +49,20 @@ public class UnitApplicationTests {
     // <editor-fold defaultstate="collapsed" desc="FriendLogic getNonFriends tests">
     @Test
     public void getNonFriendsCorrectly(){
-        List<User> nonFriends = friendLogic.getNonFriends("testfriend@test.com");
+        String nonFriends = friendLogic.getNonFriends("testfriend@test.com");
 
-        int expectedAmmount = 1;
+        String expectedAmmount = "[{\"email\":\"test@test.com\",\"name\":\"testuser\",\"imgUrl\":\"http://\"}]";
 
-        Assert.assertEquals(expectedAmmount, nonFriends.size());
+        Assert.assertEquals(expectedAmmount, nonFriends);
     }
 
     @Test
     public void getNonFriendsIncorrectly(){
-        List<User> nonFriends = friendLogic.getNonFriends("test");
+        String nonFriends = friendLogic.getNonFriends("test");
 
-        int expectedAmmount = 0;
+        String expectedAmmount = "[]";
 
-        Assert.assertEquals(expectedAmmount, nonFriends.size());
+        Assert.assertEquals(expectedAmmount, nonFriends);
     }
     // </editor-fold>
 
@@ -91,20 +96,20 @@ public class UnitApplicationTests {
     // <editor-fold defaultstate="collapsed" desc="FriendLogic getUserFriends tests">
     @Test
     public void getUserFriendsCorrectly(){
-        List<User> friends = friendLogic.getUserFriends("testfriend@test.com");
+        String friends = friendLogic.getUserFriends("testfriend@test.com");
 
-        int expectedAmmount = 0;
+        String expectedAmmount = "[]";
 
-        Assert.assertEquals(expectedAmmount, friends.size());
+        Assert.assertEquals(expectedAmmount, friends);
     }
 
     @Test
     public void getUserFriendsIncorrectly(){
-        List<User> friends = friendLogic.getUserFriends("test");
+        String friends = friendLogic.getUserFriends("test");
 
-        int expectedAmmount = 0;
+        String expectedAmmount = "[]";
 
-        Assert.assertEquals(expectedAmmount, friends.size());
+        Assert.assertEquals(expectedAmmount, friends);
     }
     // </editor-fold>
 
